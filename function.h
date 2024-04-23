@@ -19,7 +19,7 @@ bool checkInJump(Pos mouseClick, int x, int y){
     return false;
 }
 
-void handleEvent(Game &game, Pos &mouse){
+void handleEvent(Game &game, Pos &mouse, Screen &screen){
     game.get_pos = false;
     SDL_Event e;
     Pos mouseClick;
@@ -88,52 +88,38 @@ void handleEvent(Game &game, Pos &mouse){
             break;
         }
         if(checkInJump(mouseClick, 576, 128) == true){
-            game.demo_board--;
-            if(game.unlock_board[game.board] == true){
-                game.board = game.demo_board;
+            if(game.board == BOARD_BLACK){
+                game.board += 12;
             }
+            game.board--;
+            SDL_DestroyTexture(screen.board_game);
+            screen.board_game = screen.loadTexture(game.board_color[game.board-8].first.c_str());
         }
         if(checkInJump(mouseClick, 898, 128) == true){
-            game.demo_board++;
-            if(game.unlock_board[game.demo_board] == true){
-                game.board = game.demo_board;
+            if(game.board == BOARD_WHITE){
+                game.board -= 12;
             }
+            game.board++;
+            SDL_DestroyTexture(screen.board_game);
+            screen.board_game = screen.loadTexture(game.board_color[game.board-8].first.c_str());
         }
         if(checkInJump(mouseClick, 576, 192) == true){
-            game.demo_pieces_p1--;
-            if(game.unlock_board[game.demo_pieces_p1] == true){
-                game.pieces_p1 = game.demo_pieces_p1;
-            }
+            game.pieces_p1--;
         }
         if(checkInJump(mouseClick, 898, 192) == true){
-            game.demo_pieces_p1++;
-            if(game.unlock_board[game.demo_pieces_p1] == true){
-                game.pieces_p1 = game.demo_pieces_p1;
-            }
+            game.pieces_p1++;
         }
         if(checkInJump(mouseClick, 576, 256) == true){
-            game.demo_pieces_p2--;
-            if(game.unlock_board[game.demo_pieces_p2] == true){
-                game.pieces_p2 = game.demo_pieces_p2;
-            }
+            game.pieces_p2--;
         }
         if(checkInJump(mouseClick, 898, 256) == true){
-            game.demo_pieces_p2++;
-            if(game.unlock_board[game.demo_pieces_p2] == true){
-                game.pieces_p2 = game.demo_pieces_p2;
-            }
+            game.pieces_p2++;
         }
         if(checkInJump(mouseClick, 576, 320) == true){
-            game.demo_back_track--;
-            if(game.unlock_board[game.demo_back_track] == true){
-                game.back_track = game.demo_back_track;
-            }
+            game.back_track--;
         }
         if(checkInJump(mouseClick, 898, 320) == true){
-            game.demo_back_track++;
-            if(game.unlock_board[game.demo_back_track] == true){
-                game.back_track = game.demo_back_track;
-            }
+            game.back_track++;
         }
         break;
     case PAGE_GAME:
@@ -216,9 +202,14 @@ void render(Game game, Screen screen, Pos mouse){
             screen.renderTexture(screen.volume_icon, rect_in, rect_out);
         }
         for(int i=0; i<4; i++){
-            Rect rect_in(30, 60, JUMP_WIDTH, JUMP_HEIGHT);
+            Rect rect_in(23, 60, JUMP_WIDTH, JUMP_HEIGHT);
             Rect rect_out(898, 128+64*i, JUMP_WIDTH, JUMP_HEIGHT);
             screen.renderTexture(screen.volume_icon, rect_in, rect_out);
+        }
+        for(int i=0; i<1; i++){
+            Rect rect_in(64, 64, 400, 400);
+            Rect rect_out(128, 128, 384, 384);
+            screen.renderTexture(screen.board_game, rect_in, rect_out);
         }
         break;
     case PAGE_GAME:

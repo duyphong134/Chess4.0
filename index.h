@@ -20,7 +20,7 @@ const char *WINDOW_TITLE = "CHESS 4.0";
 # define BUTTON_WIDTH 128
 # define BUTTON_HEIGHT 64
 
-# define JUMP_WIDTH 25
+# define JUMP_WIDTH 23
 # define JUMP_HEIGHT 20
 
 # define PAGE_MENU 0

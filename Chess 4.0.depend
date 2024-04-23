@@ -1,16 +1,16 @@
 # depslib dependency file v1.0
-1713609037 source:c:\users\admin\downloads\chess 4.0\main.cpp
+1713878522 source:c:\users\admin\downloads\chess 4.0\main.cpp
 	"function.h"
 
-1713754269 c:\users\admin\downloads\chess 4.0\function.h
+1713878897 c:\users\admin\downloads\chess 4.0\function.h
 	"game.h"
 	"pieces.h"
 	"screen.h"
 
-1713755888 c:\users\admin\downloads\chess 4.0\game.h
+1713878861 c:\users\admin\downloads\chess 4.0\game.h
 	"index.h"
 
-1713756146 c:\users\admin\downloads\chess 4.0\index.h
+1713856669 c:\users\admin\downloads\chess 4.0\index.h
 	<iostream>
 	<vector>
 	<cmath>
@@ -22,6 +22,6 @@
 
 1713589732 c:\users\admin\downloads\chess 4.0\pieces.h
 
-1713754269 c:\users\admin\downloads\chess 4.0\screen.h
+1713878886 c:\users\admin\downloads\chess 4.0\screen.h
 	"index.h"
 

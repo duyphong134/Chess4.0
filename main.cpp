@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
     while(game.running == true){
         frame_start = SDL_GetTicks();
 
-        handleEvent(game, mouse);
+        handleEvent(game, mouse, screen);
 
         update(game);
 
