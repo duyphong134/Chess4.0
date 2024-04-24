@@ -3,37 +3,37 @@
 
 # include "index.h"
 
-//void entryUnlock(std::vector<int> &a, int line, int n){
-//    std::string x;
-//    std::ifstream fileInput("res//txt//Unlock.txt");
-//    if(fileInput.is_open()){
-//        for(int i=0; i<line; i++){
-//            fileInput >> x;
-//        }
-//        fileInput.close();
-//    } else {
-//        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
-//    }
-//    for(int i=0; i<n; i++){
-//        a[i] = (int)(x[i]-48);
-//    }
-//}
-//
-//void exportUnlock(std::vector<int> a, int line, int n){
-//    std::string x;
-//    for(int i=0; i<n; i++){
-//        x += (char)(a[i]+48);
-//    }
-//    std::ofstream fileOutput("res//txt//Unlock.txt");
-//    if(fileOutput.is_open()){
-//        for(int i=0; i<line; i++){
-//            fileOutput << x;
-//        }
-//        fileOutput.close();
-//    } else {
-//        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
-//    }
-//}
+void entryUnlock(std::vector<int> &a, int line, int n){
+    std::string x;
+    std::ifstream fileInput("res//txt//Unlock.txt");
+    if(fileInput.is_open()){
+        for(int i=0; i<line; i++){
+            fileInput >> x;
+        }
+        fileInput.close();
+    } else {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
+    }
+    for(int i=0; i<n; i++){
+        a[i] = (int)(x[i]-48);
+    }
+}
+
+void exportUnlock(std::vector<int> a, int line, int n){
+    std::string x;
+    for(int i=0; i<n; i++){
+        x += (char)(a[i]+48);
+    }
+    std::ofstream fileOutput("res//txt//Unlock.txt");
+    if(fileOutput.is_open()){
+        for(int i=0; i<line; i++){
+            fileOutput << x;
+        }
+        fileOutput.close();
+    } else {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
+    }
+}
 
 struct Game{
     bool running;
@@ -42,7 +42,9 @@ struct Game{
     int regism;
     bool get_pos;
     std::vector<std::pair<std::string, std::string>> board_color{12};
+    std::vector<int> unlock_board{12};
     int board;
+    int demo_board;
     std::vector<std::string> pieces_name{12};
     int pieces_p1;
     int pieces_p2;
@@ -70,6 +72,8 @@ struct Game{
                        {"res//image//Board_Sky.png", "SKY"},
                        {"res//image//Board_White.png", "WHITE"}};
         board = BOARD_BROWN;
+        demo_board = BOARD_BROWN;
+        entryUnlock(unlock_board, 1, 12);
 
         pieces_name = {"BLACK", "WHITE", "ASH", "GREY", "PINK", "RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "NEON","PURPLE"};
         pieces_p1 = PIECES_WHITE;

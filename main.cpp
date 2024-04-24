@@ -11,6 +11,10 @@ int main(int argc, char *argv[]){
     Uint32 frame_time;
 
     Pos mouse;
+    for(int i=0; i<12; i++){
+        std::cout << game.unlock_board[i] <<" ";
+    }
+    std::cout << std::endl;
     while(game.running == true){
         frame_start = SDL_GetTicks();
 
@@ -19,7 +23,10 @@ int main(int argc, char *argv[]){
         update(game);
 
         render(game, screen, mouse);
-
+//        for(int i=0; i<12; i++){
+//            std::cout << game.unlock_board[i] << " ";
+//        }
+//        std::cout << std::endl;
         frame_time = SDL_GetTicks() - frame_start;
         if(FRAME_DELAY >frame_time){
             SDL_Delay(FRAME_DELAY - frame_time);
