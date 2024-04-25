@@ -1,13 +1,13 @@
 # depslib dependency file v1.0
-1713951865 source:c:\users\admin\downloads\chess 4.0\main.cpp
+1714039620 source:c:\users\admin\downloads\chess 4.0\main.cpp
 	"function.h"
 
-1713973035 c:\users\admin\downloads\chess 4.0\function.h
+1714041103 c:\users\admin\downloads\chess 4.0\function.h
 	"game.h"
 	"pieces.h"
 	"screen.h"
 
-1713926292 c:\users\admin\downloads\chess 4.0\game.h
+1714038931 c:\users\admin\downloads\chess 4.0\game.h
 	"index.h"
 
 1713856669 c:\users\admin\downloads\chess 4.0\index.h

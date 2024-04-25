@@ -20,17 +20,18 @@ bool checkInJump(Pos mouseClick, int x, int y){
 }
 
 void handleEvent(Game &game, Pos &mouse, Screen &screen){
-    game.get_pos = false;
     SDL_Event e;
     Pos mouseClick;
     SDL_PollEvent(&e);
     SDL_GetMouseState(&mouse.x, &mouse.y);
+    game.get_pos = false;
     switch(e.type){
     case SDL_QUIT:
         game.running = false;
         break;
     case SDL_MOUSEBUTTONDOWN:
         SDL_GetMouseState(&mouseClick.x, &mouseClick.y);
+        std::cout << mouseClick.x << " " << mouseClick.y << std::endl;
         game.get_pos = true;
         break;
     }
@@ -38,114 +39,129 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
     switch(game.page){
     case PAGE_MENU:
         game.last_page = game.page;
-        if(checkInButton(mouseClick, 896, 0) == true){
+        if(checkInButton(mouseClick, 896, 0) == true && game.get_pos == true){
             game.page = PAGE_INFO;
             break;
         }
-        if(checkInButton(mouseClick, 448, 480) == true){
+        if(checkInButton(mouseClick, 448, 480) == true && game.get_pos == true){
             game.running = false;
             break;
         }
-        if(checkInButton(mouseClick, 448, 400) == true){
+        if(checkInButton(mouseClick, 448, 400) == true && game.get_pos == true){
             game.page = PAGE_SETTING;
             break;
         }
-        if(checkInButton(mouseClick, 448, 320) == true){
+        if(checkInButton(mouseClick, 448, 320) == true && game.get_pos == true){
             game.page = PAGE_START;
             break;
         }
         break;
     case PAGE_INFO:
-        if(checkInButton(mouseClick, 896, 0) == true){
+        if(checkInButton(mouseClick, 896, 0) == true && game.get_pos == true){
             game.page = game.last_page;
             break;
         }
         break;
     case PAGE_START:
-        if(checkInButton(mouseClick, 896, 0) == true){
+        if(checkInButton(mouseClick, 896, 0) == true && game.get_pos == true){
             game.page = game.last_page;
             break;
         }
-        if(checkInButton(mouseClick, 448, 480) == true){
+        if(checkInButton(mouseClick, 448, 480) == true && game.get_pos == true){
             game.page = PAGE_GAME;
             game.regism = 0;
             break;
         }
-        if(checkInButton(mouseClick, 448, 400) == true){
+        if(checkInButton(mouseClick, 448, 400) == true && game.get_pos == true){
             game.page = PAGE_GAME;
             game.regism = 1;
             break;
         }
-        if(checkInButton(mouseClick, 448, 320) == true){
+        if(checkInButton(mouseClick, 448, 320) == true && game.get_pos == true){
             game.page = PAGE_GAME;
             game.regism = 2;
             break;
         }
         break;
     case PAGE_SETTING:
-        if(checkInButton(mouseClick, 896, 0) == true){
+        if(checkInButton(mouseClick, 896, 0) == true && game.get_pos == true){
             game.page = game.last_page;
             break;
         }
-        if(checkInJump(mouseClick, 576, 128) == true){
-            if(game.demo_board == BOARD_BLACK){
-                game.demo_board += 12;
-            }
-            game.demo_board--;
-            if(game.unlock_board[game.demo_board-8] == 1){
-                game.board = game.demo_board;
-            }
-            SDL_DestroyTexture(screen.board_game);
-            screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
-        }
-        if(checkInJump(mouseClick, 898, 128) == true){
-            if(game.demo_board == BOARD_WHITE){
-                game.demo_board -= 12;
-            }
-            game.demo_board++;
-            if(game.unlock_board[game.demo_board-8] == 1){
-                game.board = game.demo_board;
-            }
-            SDL_DestroyTexture(screen.board_game);
-            screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
-        }
-        if(checkInJump(mouseClick, 576, 192) == true){
-            if(game.pieces_p1 == PIECES_BLACK){
-                game.pieces_p1 +=12;
-            }
-            game.pieces_p1--;
 
-        }
-        if(checkInJump(mouseClick, 898, 192) == true){
-            if(game.pieces_p1 == PIECES_PURPLE){
-                game.pieces_p1 -=12;
-            }
-            game.pieces_p1++;
-        }
-        if(checkInJump(mouseClick, 576, 256) == true){
-            if(game.pieces_p2 == PIECES_BLACK){
-                game.pieces_p2 +=12;
-            }
-            game.pieces_p2--;
-        }
-        if(checkInJump(mouseClick, 898, 256) == true){
-            if(game.pieces_p2 == PIECES_PURPLE){
-                game.pieces_p2 -=12;
-            }
-            game.pieces_p2++;
-        }
-        if(checkInJump(mouseClick, 576, 320) == true){
-            game.back_track--;
-        }
-        if(checkInJump(mouseClick, 898, 320) == true){
-            game.back_track++;
-        }
+//        if(checkInJump(mouseClick, 576, 128) == true && game.get_pos == true){
+//            if(game.demo_board == BOARD_BLACK){
+//                game.demo_board += 12;
+//            }
+//            game.demo_board--;
+//            SDL_DestroyTexture(screen.board_game);
+//            screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
+//        }
+//        if(checkInJump(mouseClick, 898, 128) == true && game.get_pos == true){
+//            if(game.demo_board == BOARD_WHITE){
+//                game.demo_board -= 12;
+//            }
+//            game.demo_board++;
+//            SDL_DestroyTexture(screen.board_game);
+//            screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
+//        }
+//        if(checkInButton(mouseClick, 672, 96) && game.get_pos == true){
+//            game.unlock_board[game.demo_board-8] = 1;
+//        }
+//        if(game.unlock_board[game.demo_board-8] == 1){
+//            game.board = game.demo_board;
+//        }
+
+//        if(checkInJump(mouseClick, 576, 192) == true && game.get_pos == true){
+//            if(game.demo_pieces_p1 == PIECES_BLACK){
+//                game.demo_pieces_p1 +=12;
+//            }
+//            game.demo_pieces_p1--;
+//        }
+//        if(checkInJump(mouseClick, 898, 192) == true && game.get_pos == true){
+//            if(game.demo_pieces_p1 == PIECES_PURPLE){
+//                game.demo_pieces_p1 -=12;
+//            }
+//            game.demo_pieces_p1++;
+//        }
+//        if(checkInButton(mouseClick, 672, 160) && game.get_pos == true){
+//            game.unlock_pieces_p1[game.demo_pieces_p1-20] = 1;
+//        }
+//        if(game.unlock_pieces_p1[game.demo_pieces_p1-20] == 1){
+//            game.pieces_p1 = game.demo_pieces_p1;
+//        }
+//
+//        if(checkInJump(mouseClick, 576, 256) == true && game.get_pos == true){
+//            if(game.demo_pieces_p2 == PIECES_BLACK){
+//                game.demo_pieces_p2 +=12;
+//            }
+//            game.demo_pieces_p2--;
+//        }
+//        if(checkInJump(mouseClick, 898, 256) == true && game.get_pos == true){
+//            if(game.demo_pieces_p2 == PIECES_PURPLE){
+//                game.demo_pieces_p2 -=12;
+//            }
+//            game.demo_pieces_p2++;
+//        }
+//        if(checkInButton(mouseClick, 672, 224) && game.get_pos == true){
+//            game.unlock_pieces_p2[game.demo_pieces_p2-20] = 1;
+//        }
+//        if(game.unlock_pieces_p2[game.demo_pieces_p2-20] == 1){
+//            game.pieces_p2 = game.demo_pieces_p2;
+//        }
+
+//        if(checkInJump(mouseClick, 576, 320) == true){
+//            game.back_track--;
+//        }
+//        if(checkInJump(mouseClick, 898, 320) == true){
+//            game.back_track++;
+//        }
         break;
     case PAGE_GAME:
         game.last_page = game.page;
         SDL_DestroyTexture(screen.board_game);
         screen.board_game = screen.loadTexture(game.board_color[game.board-8].first.c_str());
-        if(mouseClick.x >= 572 && mouseClick.y >= 22 && mouseClick.x <= 590 && mouseClick.y <= 40){
+        if(mouseClick.x >= 572 && mouseClick.y >= 22 && mouseClick.x <= 590 && mouseClick.y <= 40 && game.get_pos == true){
             game.page = PAGE_SETTING;
         }
         break;
@@ -167,7 +183,7 @@ void update(Game &game){
     }
 }
 
-void render(Game &game, Screen &screen, Pos mouse){
+void render(Game &game, Screen &screen, Pos &mouse){
     SDL_RenderClear(screen.renderer);
     if(game.get_pos == true){
         screen.playChunk(screen.notify, 0);
@@ -189,7 +205,6 @@ void render(Game &game, Screen &screen, Pos mouse){
         }
         break;
     case PAGE_INFO:
-        {
         screen.renderTexture(screen.background, 0, 0);
         for(int i=0; i<1; i++){
             int n = checkInButton(mouse, 896, 0)? 384: 256;
@@ -198,9 +213,7 @@ void render(Game &game, Screen &screen, Pos mouse){
             screen.renderTexture(screen.button, rect_in, rect_out);
         }
         break;
-        }
     case PAGE_START:
-        {
         screen.renderTexture(screen.background, 0, 0);
         for(int i=0; i<3; i++){
             int n = checkInButton(mouse, 448, 320+80*i)? 384: 256;
@@ -215,9 +228,7 @@ void render(Game &game, Screen &screen, Pos mouse){
             screen.renderTexture(screen.button, rect_in, rect_out);
         }
         break;
-        }
     case PAGE_SETTING:
-        {
         screen.renderTexture(screen.setting, 0, 0);
         for(int i=0; i<1; i++){
             int n = checkInButton(mouse, 896, 0)? 384: 256;
@@ -240,23 +251,29 @@ void render(Game &game, Screen &screen, Pos mouse){
             Rect rect_out(128, 128, 384, 384);
             screen.renderTexture(screen.board_game, rect_in, rect_out);
         }
-        for(int i=0; i<1; i++){
-            int n = ((game.unlock_board[game.demo_board-8] == 1)? 0: 32);
-            Rect rect_in(0, n, 256, 32);
-            Rect rect_out(608, 96, 288, 64);
-            screen.renderTexture(screen.unlock, rect_in, rect_out);
-        }
-        for(int i=0; i<12; i++){
-            std::cout << game.unlock_board[i] << " ";
-        }
-        std::cout << std::endl;
+//        for(int i=0; i<1; i++){
+//            int n = ((game.unlock_board[game.demo_board-8] == 1)? 0: 32);
+//            Rect rect_in(0, n, 256, 32);
+//            Rect rect_out(608, 96, 288, 64);
+//            screen.renderTexture(screen.unlock, rect_in, rect_out);
+//        }
+//        for(int i=0; i<1; i++){
+//            int n = ((game.unlock_pieces_p1[game.demo_pieces_p1-20] == 1)? 0: 32);
+//            Rect rect_in(0, n, 256, 32);
+//            Rect rect_out(608, 160, 288, 64);
+//            screen.renderTexture(screen.unlock, rect_in, rect_out);
+//            std::cout << game.unlock_pieces_p1[game.demo_pieces_p1-20] << " " << game.demo_pieces_p1 << std::endl;
+//        }
+//        for(int i=0; i<1; i++){
+//            int n = ((game.unlock_pieces_p2[game.demo_pieces_p2-20] == 1)? 0: 32);
+//            Rect rect_in(0, n, 256, 32);
+//            Rect rect_out(608, 224, 288, 64);
+//            screen.renderTexture(screen.unlock, rect_in, rect_out);
+//        }
         break;
-        }
     case PAGE_GAME:
-        {
         screen.renderTexture(screen.board_game, 0, 0);
         break;
-        }
     }
     SDL_RenderPresent(screen.renderer);
 }
