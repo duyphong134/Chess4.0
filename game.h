@@ -54,6 +54,8 @@ struct Game{
     std::vector<int> unlock_pieces_p2{12};
     std::vector<std::pair<std::string, std::string>> background_song{17};
     int back_track;
+    int demo_back_track;
+    std::vector<int> unlock_back_track{17};
 //    std::vector<std::vector<int>> pos_v1{200, std::vector<int>{64}};
 //    int pos_v2[8][8];
 //    int move_count;
@@ -87,24 +89,26 @@ struct Game{
         demo_pieces_p2 = PIECES_BLACK;
         entryUnlock(unlock_pieces_p2, 3, 12);
 
-//        background_song = {{"res//sound//#ATBE.mp3", "Âm thầm bên em"},
-//                           {"res//sound//#BDTNR.mp3", "Buông đôi tay nhau ra"},
-//                           {"res//sound//#CND.mp3", "Chạy ngay đi"},
-//                           {"res//sound//#CTCHT.mp3", "Chúng ta của hiện tại"},
-//                           {"res//sound//#CTCTL.mp3", "Chúng ta của tương lai"},
-//                           {"res//sound//#CTKTVN.mp3", "Chúng ta không thuộc về nhau"},
-//                           {"res//sound//#ECNHQ.mp3", "Em của ngày hôm qua"},
-//                           {"res//sound//#HTCA.mp3", "Hãy trao cho anh"},
-//                           {"res//sound//#KPDVD.mp3", "Không phải dạng vừa đâu"},
-//                           {"res//sound//#LNLYE.mp3", "Làm người luôn yêu em"},
-//                           {"res//sound//#LT.mp3", "Lạc trôi"},
-//                           {"res//sound//#MMW.mp3", "Making My Way"},
-//                           {"res//sound//#MRMSC.mp3", "Muộn rồi mà sao còn"},
-//                           {"res//sound//#MS_No14.mp3", "Moonlight Sonata No14"},
-//                           {"res//sound//#NAXD.mp3", "Nắng ấm xa dần"},
-//                           {"res//sound//#NNCA.mp3", "Nơi này có anh"},
-//                           {"res//sound//#TNOAA.mp3", "There no one at all"}};
-//        back_track = TRACK_NONE;
+        background_song = {{"res//sound//#ATBE.mp3", "Am tham ben em"},
+                           {"res//sound//#BDTNR.mp3", "Buong doi tay nhau ra"},
+                           {"res//sound//#CND.mp3", "Chay ngay di"},
+                           {"res//sound//#CTCHT.mp3", "Chung ta cua hien tai"},
+                           {"res//sound//#CTCTL.mp3", "Chung ta cua tuong lai"},
+                           {"res//sound//#CTKTVN.mp3", "Chung ta khong thuoc ve nhau"},
+                           {"res//sound//#ECNHQ.mp3", "Em cua ngay hom qua"},
+                           {"res//sound//#HTCA.mp3", "Hay trao cho anh"},
+                           {"res//sound//#KPDVD.mp3", "Khong phai dang vua dau"},
+                           {"res//sound//#LNLYE.mp3", "Lam nguoi luon yeu em"},
+                           {"res//sound//#LT.mp3", "Lac troi"},
+                           {"res//sound//#MMW.mp3", "Making My Way"},
+                           {"res//sound//#MRMSC.mp3", "Muon roi ma sao con"},
+                           {"res//sound//#MS_No14.mp3", "Moonlight Sonata No14"},
+                           {"res//sound//#NAXD.mp3", "Nang am xa dan"},
+                           {"res//sound//#NNCA.mp3", "Noi nay co anh"},
+                           {"res//sound//#TNOAA.mp3", "There no one at all"}};
+        back_track = TRACK_ATBE;
+        demo_back_track = TRACK_ATBE;
+        entryUnlock(unlock_back_track, 4, 17);
     }
 
 //    void tranToPosV2(){

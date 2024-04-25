@@ -59,24 +59,23 @@ const char *WINDOW_TITLE = "CHESS 4.0";
 # define PIECES_NEON 31
 # define PIECES_PURPLE 32
 
-# define TRACK_NONE 33
-# define TRACK_ATBE 34
-# define TRACK_BDTNR 35
-# define TRACK_CND 36
-# define TRACK_CTCHT 37
-# define TRACK_CTCTL 38
-# define TRACK_CTKTVN 39
-# define TRACK_ECNHQ 40
-# define TRACK_HTCA 41
-# define TRACK_KPDVD 42
-# define TRACK_LNLYE 43
-# define TRACK_LT 44
-# define TRACK_MMW 45
-# define TRACK_MRMSC 46
-# define TRACK_MS_NO14 47
-# define TRACK_NAXD 48
-# define TRACK_NNCA 49
-# define TRACK_TNOAA 50
+# define TRACK_ATBE 33
+# define TRACK_BDTNR 34
+# define TRACK_CND 35
+# define TRACK_CTCHT 36
+# define TRACK_CTCTL 37
+# define TRACK_CTKTVN 38
+# define TRACK_ECNHQ 39
+# define TRACK_HTCA 40
+# define TRACK_KPDVD 41
+# define TRACK_LNLYE 42
+# define TRACK_LT 43
+# define TRACK_MMW 44
+# define TRACK_MRMSC 45
+# define TRACK_MS_NO14 46
+# define TRACK_NAXD 47
+# define TRACK_NNCA 48
+# define TRACK_TNOAA 49
 
 # pragma once
 

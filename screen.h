@@ -17,10 +17,11 @@ struct Rect{
 struct Screen{
     SDL_Window *window;
     SDL_Renderer *renderer;
-    SDL_Texture *background, *setting, *button, *volume_chart, *board_game, *pieces, *move_light, *unlock, *volume_icon, *button_name;
+    SDL_Texture *background, *setting, *button, *volume_chart, *board_game, *pieces, *move_light, *unlock, *volume_icon, *board_name, *pieces_p1_name, *pieces_p2_name, *back_track_name;
     Mix_Chunk *notify, *move_self, *capture;
     Mix_Music *sound_track;
     TTF_Font *font;
+    SDL_Color color = {255, 0, 0, 255};
 
     void init(){
         if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -62,10 +63,13 @@ struct Screen{
         notify = loadChunk("res//sound//notify.mp3");
         move_self = loadChunk("res//sound//move_self.mp3");
         capture = loadChunk("res//sound//capture.mp3");
-        sound_track = nullptr;
+        sound_track = loadMusic("res//sound//#ATBE.mp3");
 
-        font = loadFont("res//font//Arial.ttf", 20);
-        button_name = nullptr;
+        font = loadFont("res//font//Arial_Bold.ttf", 20);
+        board_name = createText("BROWN", font, color);
+        pieces_p1_name = createText("WHITE", font, color);
+        pieces_p2_name = createText("BLACK", font, color);
+        back_track_name = createText("NONE", font, color);
     }
 
     SDL_Texture *loadTexture(const char *filename){
@@ -138,7 +142,7 @@ struct Screen{
         }
     }
 
-    SDL_Texture* renderText(const char* text, TTF_Font* font, SDL_Color textColor){
+    SDL_Texture* createText(const char* text, TTF_Font* font, SDL_Color textColor){
         SDL_Surface* textSurface = TTF_RenderText_Solid( font, text, textColor );
         if( textSurface == nullptr ){
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "loadText", TTF_GetError());
@@ -154,8 +158,14 @@ struct Screen{
     }
 
     void quit(){
-        SDL_DestroyTexture(button_name);
-        button_name = nullptr;
+        SDL_DestroyTexture(board_name);
+        board_name = nullptr;
+        SDL_DestroyTexture(pieces_p1_name);
+        pieces_p1_name = nullptr;
+        SDL_DestroyTexture(pieces_p2_name);
+        pieces_p2_name = nullptr;
+        SDL_DestroyTexture(back_track_name);
+        back_track_name = nullptr;
         TTF_CloseFont(font);
         font = nullptr;
         TTF_Quit();
