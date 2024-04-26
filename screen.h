@@ -69,7 +69,7 @@ struct Screen{
         board_name = createText("BROWN", font, color);
         pieces_p1_name = createText("WHITE", font, color);
         pieces_p2_name = createText("BLACK", font, color);
-        back_track_name = createText("NONE", font, color);
+        back_track_name = createText("Am tham ben em", font, color);
     }
 
     SDL_Texture *loadTexture(const char *filename){

@@ -27,6 +27,22 @@ int main(int argc, char *argv[]){
     Uint32 frame_time;
 
     Pos mouse;
+    for(int i=0; i<12; i++){
+        std::cout << game.unlock_board[i] << " ";
+    }
+    std::cout << std::endl;
+    for(int i=0; i<12; i++){
+        std::cout << game.unlock_pieces_p1[i] << " ";
+    }
+    std::cout << std::endl;
+    for(int i=0; i<12; i++){
+        std::cout << game.unlock_pieces_p2[i] << " ";
+    }
+    std::cout << std::endl;
+    for(int i=0; i<17; i++){
+        std::cout << game.unlock_back_track[i] << " ";
+    }
+    std::cout << std::endl;
     while(game.running == true){
         frame_start = SDL_GetTicks();
 

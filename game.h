@@ -15,8 +15,10 @@ void entryUnlock(std::vector<int> &a, int line, int n){
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
     }
     for(int i=0; i<n; i++){
-        a[i] = (int)(x[i]-48);
+        a[i] = (int)(x[i])- 48;
+        std::cout << x[i] << " ";
     }
+    std::cout << x << std::endl;
 }
 
 void exportUnlock(std::vector<int> a, int line, int n){
@@ -25,6 +27,40 @@ void exportUnlock(std::vector<int> a, int line, int n){
         x += (char)(a[i]+48);
     }
     std::ofstream fileOutput("res//txt//Unlock.txt");
+    if(fileOutput.is_open()){
+        for(int i=0; i<line; i++){
+            fileOutput << x;
+        }
+        fileOutput.close();
+    } else {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
+    }
+}
+
+void entryRiddle(std::vector<char> &a, int line, int n){
+    std::string x;
+    std::ifstream fileInput("res//txt//Riddle.txt");
+    if(fileInput.is_open()){
+        for(int i=0; i<line; i++){
+            fileInput >> x;
+        }
+        fileInput.close();
+    } else {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Can't open file unlock");
+    }
+    for(int i=0; i<n; i++){
+        a[i] = (int)(x[i])- 48;
+        std::cout << x[i] << " ";
+    }
+    std::cout << x << std::endl;
+}
+
+void exportRiddle(std::vector<char> a, int line, int n){
+    std::string x;
+    for(int i=0; i<n; i++){
+        x += (char)(a[i]+48);
+    }
+    std::ofstream fileOutput("res//txt//Riddle.txt");
     if(fileOutput.is_open()){
         for(int i=0; i<line; i++){
             fileOutput << x;
@@ -56,9 +92,11 @@ struct Game{
     int back_track;
     int demo_back_track;
     std::vector<int> unlock_back_track{17};
-//    std::vector<std::vector<int>> pos_v1{200, std::vector<int>{64}};
-//    int pos_v2[8][8];
-//    int move_count;
+    int back_track_volume;
+    int mix_volume;
+    std::vector<std::vector<int>> pos_v1{200, std::vector<int>{64}};
+    int pos_v2[8][8];
+    int move_count;
     void init(){
         running = true;
         get_pos = false;
@@ -79,15 +117,15 @@ struct Game{
                        {"res//image//Board_White.png", "WHITE"}};
         board = BOARD_BROWN;
         demo_board = BOARD_BROWN;
-        entryUnlock(unlock_board, 1, 12);
+//        entryUnlock(unlock_board, 1, 12);
 
         pieces_name = {"BLACK", "WHITE", "ASH", "GREY", "PINK", "RED", "ORANGE", "YELLOW", "GREEN", "BLUE", "NEON","PURPLE"};
         pieces_p1 = PIECES_WHITE;
         demo_pieces_p1 = PIECES_WHITE;
-        entryUnlock(unlock_pieces_p1, 2, 12);
+//        entryUnlock(unlock_pieces_p1, 2, 12);
         pieces_p2 = PIECES_BLACK;
         demo_pieces_p2 = PIECES_BLACK;
-        entryUnlock(unlock_pieces_p2, 3, 12);
+//        entryUnlock(unlock_pieces_p2, 3, 12);
 
         background_song = {{"res//sound//#ATBE.mp3", "Am tham ben em"},
                            {"res//sound//#BDTNR.mp3", "Buong doi tay nhau ra"},
@@ -108,29 +146,36 @@ struct Game{
                            {"res//sound//#TNOAA.mp3", "There no one at all"}};
         back_track = TRACK_ATBE;
         demo_back_track = TRACK_ATBE;
+        entryUnlock(unlock_board, 1, 12);
+        entryUnlock(unlock_pieces_p1, 2, 12);
+        entryUnlock(unlock_pieces_p2, 3, 12);
         entryUnlock(unlock_back_track, 4, 17);
+        back_track_volume = 128;
+        mix_volume = 128;
+
+        move_count =0;
     }
 
-//    void tranToPosV2(){
-//        int pos_count =0;
-//        for(int i=0; i<8; i++){
-//            for(int j=0; j<8; j++){
-//                pos_v2[i][j] = pos_v1[move_count][pos_count];
-//                pos_count ++;
-//            }
-//        }
-//    }
-//
-//    void tranToPosV1(){
-//        move_count++;
-//        int pos_count =0;
-//        for(int i=0; i<8; i++){
-//            for(int j=0; j<8; j++){
-//                pos_v1[move_count][pos_count] = pos_v2[i][j];
-//                pos_count++;
-//            }
-//        }
-//    }
+    void tranToPosV2(){
+        int pos_count =0;
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                pos_v2[i][j] = pos_v1[move_count][pos_count];
+                pos_count ++;
+            }
+        }
+    }
+
+    void tranToPosV1(){
+        move_count++;
+        int pos_count =0;
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                pos_v1[move_count][pos_count] = pos_v2[i][j];
+                pos_count++;
+            }
+        }
+    }
 
     void quit(){
         board_color.clear();
@@ -139,10 +184,11 @@ struct Game{
         unlock_pieces_p1.clear();
         unlock_pieces_p2.clear();
         background_song.clear();
-//        for(int i=0; i <= move_count; i++){
-//            pos_v1[i].clear();
-//        }
-//        pos_v1.clear();
+        unlock_back_track.clear();
+        for(int i=0; i <= move_count; i++){
+            pos_v1[i].clear();
+        }
+        pos_v1.clear();
     }
 };
 

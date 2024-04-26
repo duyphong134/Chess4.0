@@ -48,34 +48,34 @@ const char *WINDOW_TITLE = "CHESS 4.0";
 
 # define PIECES_BLACK 20
 # define PIECES_WHITE 21
-# define PIECES_ASH 23
-# define PIECES_GREY 24
-# define PIECES_PINK 25
-# define PIECES_RED 26
-# define PIECES_ORANGE 27
-# define PIECES_YELLOW 28
-# define PIECES_GREEN 29
-# define PIECES_BLUE 30
-# define PIECES_NEON 31
-# define PIECES_PURPLE 32
+# define PIECES_ASH 22
+# define PIECES_GREY 23
+# define PIECES_PINK 24
+# define PIECES_RED 25
+# define PIECES_ORANGE 26
+# define PIECES_YELLOW 27
+# define PIECES_GREEN 28
+# define PIECES_BLUE 29
+# define PIECES_NEON 30
+# define PIECES_PURPLE 31
 
-# define TRACK_ATBE 33
-# define TRACK_BDTNR 34
-# define TRACK_CND 35
-# define TRACK_CTCHT 36
-# define TRACK_CTCTL 37
-# define TRACK_CTKTVN 38
-# define TRACK_ECNHQ 39
-# define TRACK_HTCA 40
-# define TRACK_KPDVD 41
-# define TRACK_LNLYE 42
-# define TRACK_LT 43
-# define TRACK_MMW 44
-# define TRACK_MRMSC 45
-# define TRACK_MS_NO14 46
-# define TRACK_NAXD 47
-# define TRACK_NNCA 48
-# define TRACK_TNOAA 49
+# define TRACK_ATBE 32
+# define TRACK_BDTNR 33
+# define TRACK_CND 34
+# define TRACK_CTCHT 35
+# define TRACK_CTCTL 36
+# define TRACK_CTKTVN 37
+# define TRACK_ECNHQ 38
+# define TRACK_HTCA 39
+# define TRACK_KPDVD 40
+# define TRACK_LNLYE 41
+# define TRACK_LT 42
+# define TRACK_MMW 43
+# define TRACK_MRMSC 44
+# define TRACK_MS_NO14 45
+# define TRACK_NAXD 46
+# define TRACK_NNCA 47
+# define TRACK_TNOAA 48
 
 # pragma once
 
