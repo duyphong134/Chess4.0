@@ -29,8 +29,8 @@ const char *WINDOW_TITLE = "CHESS 4.0";
 # define PAGE_SETTING 3
 # define PAGE_GAME 4
 
-# define REGISM_2P 5
-# define REGISM_1P 6
+# define REGISM_1P 5
+# define REGISM_2P 6
 # define REGISM_RIDDLE 7
 
 # define BOARD_BLACK 8
@@ -77,6 +77,5 @@ const char *WINDOW_TITLE = "CHESS 4.0";
 # define TRACK_NNCA 47
 # define TRACK_TNOAA 48
 
-# pragma once
 
 # endif // _INDEX__H_

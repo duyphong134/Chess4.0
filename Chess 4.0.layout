@@ -4,36 +4,25 @@
 	<ActiveTarget name="Debug" />
 	<File name="pieces.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="300" topLine="0" />
+			<Cursor1 position="212" topLine="6" />
 		</Cursor>
-	</File>
-	<File name="game.h" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1597" topLine="52" />
-		</Cursor>
-	</File>
-	<File name="function.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="15597" topLine="357" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="888" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="index.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1202" topLine="5" />
-		</Cursor>
+		<Folding>
+			<Collapse line="3" />
+			<Collapse line="5" />
+			<Collapse line="18" />
+			<Collapse line="23" />
+		</Folding>
 	</File>
 	<File name="screen.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2666" topLine="60" />
+			<Cursor1 position="5686" topLine="0" />
 		</Cursor>
 		<Folding>
 			<Collapse line="5" />
 			<Collapse line="8" />
+			<Collapse line="16" />
+			<Collapse line="25" />
+			<Collapse line="74" />
 			<Collapse line="84" />
 			<Collapse line="92" />
 			<Collapse line="108" />
@@ -41,6 +30,43 @@
 			<Collapse line="124" />
 			<Collapse line="130" />
 			<Collapse line="137" />
+			<Collapse line="144" />
+			<Collapse line="159" />
+		</Folding>
+	</File>
+	<File name="game.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9563" topLine="9" />
+		</Cursor>
+		<Folding>
+			<Collapse line="5" />
+			<Collapse line="21" />
+			<Collapse line="37" />
+			<Collapse line="110" />
+			<Collapse line="138" />
+			<Collapse line="186" />
+			<Collapse line="235" />
+		</Folding>
+	</File>
+	<File name="index.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="627" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="715" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="function.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9637" topLine="185" />
+		</Cursor>
+		<Folding>
+			<Collapse line="7" />
+			<Collapse line="14" />
+			<Collapse line="21" />
+			<Collapse line="234" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>

@@ -19,9 +19,8 @@ bool checkInJump(Pos mouseClick, int x, int y){
     return false;
 }
 
-void handleEvent(Game &game, Pos &mouse, Screen &screen){
+void handleEvent(Game &game, Pos &mouse, Pos &mouseClick){
     SDL_Event e;
-    Pos mouseClick;
     SDL_PollEvent(&e);
     SDL_GetMouseState(&mouse.x, &mouse.y);
     game.get_pos = false;
@@ -35,7 +34,9 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
         game.get_pos = true;
         break;
     }
+}
 
+void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
     switch(game.page){
     case PAGE_MENU:
         game.last_page = game.page;
@@ -106,7 +107,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
             SDL_DestroyTexture(screen.board_name);
             screen.board_name = screen.createText(game.board_color[game.demo_board-8].second.c_str(), screen.font, screen.color);
-            std::cout << game.board << " " << game.demo_board << std::endl;
         }
         if(checkInJump(mouseClick, 898, 128) == true && game.get_pos == true){
             if(game.demo_board == BOARD_WHITE){
@@ -117,7 +117,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             screen.board_game = screen.loadTexture(game.board_color[game.demo_board-8].first.c_str());
             SDL_DestroyTexture(screen.board_name);
             screen.board_name = screen.createText(game.board_color[game.demo_board-8].second.c_str(), screen.font, screen.color);
-            std::cout << game.board << " " << game.demo_board << std::endl;
         }
         if(checkInButton(mouseClick, 672, 96) && game.get_pos == true){
             game.unlock_board[game.demo_board-8] = 1;
@@ -127,7 +126,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
         }
 
         if(checkInJump(mouseClick, 576, 192) == true && game.get_pos == true){
-            std::cout << game.pieces_p1 << " " << game.demo_pieces_p1 << std::endl;
             if(game.demo_pieces_p1 == PIECES_BLACK){
                 game.demo_pieces_p1 +=12;
             }
@@ -136,7 +134,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             screen.pieces_p1_name = screen.createText(game.pieces_name[game.demo_pieces_p1-20].c_str(), screen.font, screen.color);
         }
         if(checkInJump(mouseClick, 898, 192) == true && game.get_pos == true){
-            std::cout << game.pieces_p1 << " " << game.demo_pieces_p1 << std::endl;
             if(game.demo_pieces_p1 == PIECES_PURPLE){
                 game.demo_pieces_p1 -=12;
             }
@@ -158,7 +155,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             game.demo_pieces_p2--;
             SDL_DestroyTexture(screen.pieces_p2_name);
             screen.pieces_p2_name = screen.createText(game.pieces_name[game.demo_pieces_p2-20].c_str(), screen.font, screen.color);
-            std::cout << game.pieces_p2 << " " << game.demo_pieces_p2 << std::endl;
         }
         if(checkInJump(mouseClick, 898, 256) == true && game.get_pos == true){
             if(game.demo_pieces_p2 == PIECES_PURPLE){
@@ -167,7 +163,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             game.demo_pieces_p2++;
             SDL_DestroyTexture(screen.pieces_p2_name);
             screen.pieces_p2_name = screen.createText(game.pieces_name[game.demo_pieces_p2-20].c_str(), screen.font, screen.color);
-            std::cout << game.pieces_p2 << " " << game.demo_pieces_p2 << std::endl;
         }
         if(checkInButton(mouseClick, 672, 224) && game.get_pos == true){
             game.unlock_pieces_p2[game.demo_pieces_p2-20] = 1;
@@ -185,7 +180,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             screen.back_track_name = screen.createText(game.background_song[game.demo_back_track-32].second.c_str(), screen.font, screen.color);
             Mix_FreeMusic(screen.sound_track);
             screen.sound_track = screen.loadMusic(game.background_song[game.demo_back_track-32].first.c_str());
-            std::cout << game.back_track << " " << game.demo_back_track << std::endl;
         }
         if(checkInJump(mouseClick, 898, 320) == true && game.get_pos == true){
             if(game.demo_back_track == TRACK_TNOAA){
@@ -196,7 +190,6 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
             screen.back_track_name = screen.createText(game.background_song[game.demo_back_track-32].second.c_str(), screen.font, screen.color);
             Mix_FreeMusic(screen.sound_track);
             screen.sound_track = screen.loadMusic(game.background_song[game.demo_back_track-32].first.c_str());
-            std::cout << game.back_track << " " << game.demo_back_track << std::endl;
         }
         if(checkInButton(mouseClick, 672, 288) && game.get_pos == true){
             game.unlock_back_track[game.demo_back_track-32] = 1;
@@ -219,21 +212,39 @@ void handleEvent(Game &game, Pos &mouse, Screen &screen){
         if(mouseClick.x >= 572 && mouseClick.y >= 22 && mouseClick.x <= 590 && mouseClick.y <= 40 && game.get_pos == true){
             game.page = PAGE_SETTING;
         }
-        break;
-    }
-}
 
-void update(Game &game){
-    switch(game.page){
-    case PAGE_MENU:
-        break;
-    case PAGE_INFO:
-        break;
-    case PAGE_START:
-        break;
-    case PAGE_SETTING:
-        break;
-    case PAGE_GAME:
+        if(mouseClick.x >= 64 && mouseClick.y >= 64 && mouseClick.x <= 576 && mouseClick.y <= 576 && game.get_pos == true){
+            switch(game.regism){
+            case REGISM_1P:
+                break;
+            case REGISM_2P:
+                int n = ((game.move_count %2) ==0)? 1: -1;
+                if(game.pos_1_choosed == false && game.pos_2_choosed == false && game.pos_v2[mouseClick.x][mouseClick.y]*n>0){
+                    piece.Pos1GetCoord(mouseClick);
+                    game.pos_1_choosed = true;
+                    piece.init(game);
+                }
+                if(game.pos_1_choosed == true && game.pos_2_choosed == false && piece.enable[mouseClick.x][mouseClick.y] == true){
+                    piece.Pos2GetCoord(mouseClick);
+                    game.pos_2_choosed = true;
+                }
+                if(game.pos_1_choosed == true && game.pos_2_choosed == true){
+                    game.pos_1_choosed = false;
+                    game.pos_2_choosed = false;
+                }
+                break;
+            }
+            std::cout << game.pos_1_choosed << " " << game.pos_2_choosed << std::endl;
+            std::cout << piece.pos1.x << " " << piece.pos1.y << std::endl;
+            std::cout << piece.pos2.x << " " << piece.pos2.y << std::endl;
+            for(int i=0; i<8; i++){
+                for(int j=0; j<8; j++){
+                    std::cout << game.pos_v2[i][j] << " ";
+                }
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
+        }
         break;
     }
 }
@@ -302,7 +313,7 @@ void render(Game &game, Screen &screen, Pos &mouse){
             screen.renderTexture(screen.volume_icon, rect_in, rect_out);
         }
         for(int i=0; i<1; i++){
-            Rect rect_in(64, 64, 400, 400);
+            Rect rect_in(64, 64, 384, 384);
             Rect rect_out(128, 128, 384, 384);
             screen.renderTexture(screen.board_game, rect_in, rect_out);
         }
@@ -385,9 +396,29 @@ void render(Game &game, Screen &screen, Pos &mouse){
             screen.renderTexture(screen.volume_icon, rect_in, rect_out);
         }
 
+        for(int i=0; i< 6; i++){
+            for(int j=0; j<6; j++){
+                if(game.pos_v2[i][j] != 0){
+                    int n = (game.pos_v2[i][j] >0)? (game.pieces_p1-20): (game.pieces_p2-20);
+                    Rect rect_in((abs(game.pos_v2[i][j])-1)*128, 128*n, 128, 128);
+                    Rect rect_out((j+2)*64, (i+2)*64, 64, 64);
+                    screen.renderTexture(screen.pieces, rect_in, rect_out);
+                }
+            }
+        }
         break;
     case PAGE_GAME:
         screen.renderTexture(screen.board_game, 0, 0);
+        for(int i=0; i< 8; i++){
+            for(int j=0; j<8; j++){
+                if(game.pos_v2[i][j] != 0){
+                    int n = (game.pos_v2[i][j] >0)? (game.pieces_p1-20): (game.pieces_p2-20);
+                    Rect rect_in((abs(game.pos_v2[i][j])-1)*128, 128*n, 128, 128);
+                    Rect rect_out((j+1)*64, (i+1)*64, 64, 64);
+                    screen.renderTexture(screen.pieces, rect_in, rect_out);
+                }
+            }
+        }
         break;
     }
     SDL_RenderPresent(screen.renderer);

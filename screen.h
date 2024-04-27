@@ -55,7 +55,7 @@ struct Screen{
         volume_chart = loadTexture("res//image//Volume_Chart.png");
         button = loadTexture("res//image//Button.png");
         board_game = loadTexture("res//image//Board_Brown.png");
-        pieces = loadTexture("res//image//pieces.png");
+        pieces = loadTexture("res//image//Pieces.png");
         move_light = loadTexture("res//image//Move_Light.png");
         unlock = loadTexture("res//image//Unlock.png");
         volume_icon = loadTexture("res//image//Volume_Icon.png");

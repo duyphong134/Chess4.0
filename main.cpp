@@ -27,28 +27,28 @@ int main(int argc, char *argv[]){
     Uint32 frame_time;
 
     Pos mouse;
-    for(int i=0; i<12; i++){
-        std::cout << game.unlock_board[i] << " ";
-    }
-    std::cout << std::endl;
-    for(int i=0; i<12; i++){
-        std::cout << game.unlock_pieces_p1[i] << " ";
-    }
-    std::cout << std::endl;
-    for(int i=0; i<12; i++){
-        std::cout << game.unlock_pieces_p2[i] << " ";
-    }
-    std::cout << std::endl;
-    for(int i=0; i<17; i++){
-        std::cout << game.unlock_back_track[i] << " ";
-    }
-    std::cout << std::endl;
+    Pos mouseClick;
+    Pieces piece;
+//    for(int i=0; i<64; i++){
+//        std::cout << game.pos_v1[game.move_count][i] << " ";
+//        if(i %8==7){
+//            std::cout << std::endl;
+//        }
+//    }
+//    std::cout << std::endl;
+//    for(int i=0; i<8; i++){
+//        for(int j=0; j<8; j++){
+//            std::cout << game.pos_v2[i][j] << " ";
+//        }
+//        std::cout << std::endl;
+//    }
+//    std::cout << std::endl;
     while(game.running == true){
         frame_start = SDL_GetTicks();
 
-        handleEvent(game, mouse, screen);
+        handleEvent(game, mouse, mouseClick);
 
-        update(game);
+        update(game, screen, mouseClick, piece);
 
         render(game, screen, mouse);
 
@@ -59,5 +59,5 @@ int main(int argc, char *argv[]){
     }
     game.quit();
     screen.quit();
-    return 0;
+//    return 0;
 }
