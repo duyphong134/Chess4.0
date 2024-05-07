@@ -102,11 +102,13 @@ struct Game{
     int unlock_back_track[17];
     int back_track_volume;
     int mix_volume;
-    char pos_v1[200][64];
+    char pos_v1[200][65];
     int pos_v2[8][8];
     int move_count;
-    bool pos_1_choosed;
-    bool pos_2_choosed;
+    int cur_move_count;
+    bool chose_piece;
+    std::pair<std::string, std::string> move_note[200];
+    bool is_move;
 
     void init(){
         running = true;
@@ -132,8 +134,9 @@ struct Game{
         entryRiddle(pos_v1[0], '0', 64);
         tranToPosV2();
         move_count =0;
-        pos_1_choosed = false;
-        pos_2_choosed = false;
+        cur_move_count =0;
+        chose_piece = false;
+        is_move = false;
     }
 
     void tranToPosV2(){
@@ -186,6 +189,7 @@ struct Game{
 
     void tranToPosV1(){
         move_count++;
+        cur_move_count = move_count;
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
                 switch(pos_v2[i][j]){
