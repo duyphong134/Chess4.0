@@ -17,7 +17,7 @@ struct Rect{
 struct Screen{
     SDL_Window *window;
     SDL_Renderer *renderer;
-    SDL_Texture *background, *setting, *button, *volume_chart, *board_game, *pieces, *move_light, *unlock, *volume_icon, *board_name, *pieces_p1_name, *pieces_p2_name, *back_track_name;
+    SDL_Texture *background, *setting, *button, *volume_chart, *board_game, *pieces, *move_light, *unlock, *volume_icon, *board_name, *pieces_p1_name, *pieces_p2_name, *back_track_name, *info;
     Mix_Chunk *notify, *move_self, *capture;
     Mix_Music *sound_track;
     TTF_Font *font;
@@ -59,6 +59,7 @@ struct Screen{
         move_light = loadTexture("res//image//Move_Light.png");
         unlock = loadTexture("res//image//Unlock.png");
         volume_icon = loadTexture("res//image//Volume_Icon.png");
+        info = loadTexture("res//image//Info.png");
 
         notify = loadChunk("res//sound//notify.mp3");
         move_self = loadChunk("res//sound//move_self.mp3");
@@ -198,6 +199,8 @@ struct Screen{
         unlock = nullptr;
         SDL_DestroyTexture(volume_icon);
         volume_icon = nullptr;
+        SDL_DestroyTexture(info);
+        info = nullptr;
         IMG_Quit();
 
         SDL_DestroyWindow(window);

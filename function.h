@@ -342,7 +342,7 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
             }
         }
         if(mouseClick.x >= 900 && mouseClick.y >= 495 && mouseClick.x <= 980 && mouseClick.y <= 545 && game.get_pos == true){
-
+            std::cout << "That function is coming" << std::endl;
         }
         if(mouseClick.x >= 64 && mouseClick.y >= 64 && mouseClick.x <= 576 && mouseClick.y <= 576 && game.get_pos == true){
             switch(game.regism){
@@ -386,6 +386,21 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
                 }
                 break;
             case REGISM_RIDDLE:
+                if(game.chose_piece == false){
+                    piece.Pos1GetCoord(mouseClick);
+                    if(game.pos_v2[piece.pos1.x][piece.pos1.y]>0){
+                        game.chose_piece = true;
+                        piece.init(game);
+                    }
+                } else{
+                    if(game.chose_piece == true){
+                        piece.Pos2GetCoord(mouseClick);
+                        if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
+                            move(game, piece);
+                        }
+                        game.chose_piece = false;
+                    }
+                }
                 break;
             }
         }
@@ -418,7 +433,7 @@ void render(Game &game, Screen &screen, Pos &mouse, Pieces &piece){
         }
         break;
     case PAGE_INFO:
-        screen.renderTexture(screen.background, 0, 0);
+        screen.renderTexture(screen.info, 0, 0);
         for(int i=0; i<1; i++){
             int n = checkInButton(mouse, 896, 0)? 384: 256;
             Rect rect_in(n, 192, BUTTON_WIDTH, BUTTON_HEIGHT);
