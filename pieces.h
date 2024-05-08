@@ -1,6 +1,25 @@
 # ifndef _PIECES__H_
 # define _PIECES__H_
 
+//std::pair<int, std::string> minimax(int board[][], int depth , int move_count, std::string enable_note[], int enable_count){
+//    if(depth ==0){
+//        return 0;
+//    }
+//    int cur_board[8][8];
+//    Pieces cur_piece;
+//    Pos cur_pos;
+//    for(int i=0; i<8; i++){
+//        for(int j=0; j<8; j++){
+//            cur_board[i][j] = board[i][j];
+//        }
+//    }
+//    int n = ((move_count %2) ==0)? 1: -1;
+//    if(n == 1){
+//        cur_piece.Pos1GetCoord()
+//    } else {
+//    }
+//}
+
 std::string tranToNoteCrood(int x, int y){
     std::string s;
     s += (char)(y+97);
@@ -34,13 +53,15 @@ struct Pieces{
     bool castle;
     int dis_x =0;
     int dis_y =0;
+    std::string enable_note[32];
+    int enable_count;
 
     void evaluateDistant(bool &x){
         if(dis_x == (pos2.y-pos1.y)*64 && dis_y == (pos2.x-pos1.x)*64){
             x = false;
         }else{
-        dis_x += (pos2.y-pos1.y)*64/16;
-        dis_y += (pos2.x-pos1.x)*64/16;
+        dis_x += (pos2.y-pos1.y)*4;
+        dis_y += (pos2.x-pos1.x)*4;
         }
     }
 
@@ -270,6 +291,16 @@ struct Pieces{
                 }
             }
             break;
+        }
+
+        enable_count =0;
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                if(enable[i][j] == true){
+                    enable_note[enable_count] = tranToNoteCrood(i, j);
+                    enable_count++;
+                }
+            }
         }
     }
 };
