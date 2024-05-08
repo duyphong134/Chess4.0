@@ -1,30 +1,16 @@
 # ifndef _PIECES__H_
 # define _PIECES__H_
 
-//std::pair<int, std::string> minimax(int board[][], int depth , int move_count, std::string enable_note[], int enable_count){
-//    if(depth ==0){
-//        return 0;
-//    }
-//    int cur_board[8][8];
-//    Pieces cur_piece;
-//    Pos cur_pos;
-//    for(int i=0; i<8; i++){
-//        for(int j=0; j<8; j++){
-//            cur_board[i][j] = board[i][j];
-//        }
-//    }
-//    int n = ((move_count %2) ==0)? 1: -1;
-//    if(n == 1){
-//        cur_piece.Pos1GetCoord()
-//    } else {
-//    }
-//}
-
 std::string tranToNoteCrood(int x, int y){
     std::string s;
     s += (char)(y+97);
     s += (char)(56-x);
     return s;
+}
+
+void tranToCrood(int &x, int &y, std::string s){
+    y = (int)(s[0])-97;
+    x= 56- (int)(s[1]);
 }
 
 bool checkPieceMove(std::string s, std::pair<std::string, std::string> move_note[], int move_count){
