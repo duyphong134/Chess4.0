@@ -5,6 +5,105 @@
 # include "pieces.h"
 # include "screen.h"
 
+void move(Game &game, Pieces &piece){
+    if(piece.pos1.y != piece.pos2.y && game.pos_v2[piece.pos2.x][piece.pos2.y] == 0 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==1 && abs(game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos1.x][piece.pos1.y]][piece.pos2.y])==1){
+        piece.get_pawn_special = true;
+    }
+    if(abs(piece.pos2.y - piece.pos1.y)==2 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==6){
+        piece.castle= true;
+    }
+    if(piece.get_pawn_special == true){
+        game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
+        game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
+        game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
+        piece.get_pawn_special = false;
+    }else {
+        if(piece.castle == true){
+            game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
+            game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
+            if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos1.x){
+                game.pos_v2[piece.pos2.x][piece.pos2.y-1] = game.pos_v2[piece.pos2.x][piece.pos2.y+1];
+                game.pos_v2[piece.pos2.x][piece.pos2.y+1] = 0;
+            } else {
+                game.pos_v2[piece.pos2.x][piece.pos2.y+1] = game.pos_v2[piece.pos2.x][piece.pos2.y-2];
+                game.pos_v2[piece.pos2.x][piece.pos2.y-2] = 0;
+            }
+            piece.castle = false;
+        } else {
+            game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
+            game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
+        }
+    }
+    if((piece.pos2.x == 0 || piece.pos2.x == 7)&& (game.pos_v2[piece.pos2.x][piece.pos2.y] == 1 || game.pos_v2[piece.pos2.x][piece.pos2.y] == -1)){
+        game.pos_v2[piece.pos2.x][piece.pos2.y] *=5;
+    }
+    game.tranToPosV1();
+    game.move_note[game.move_count] = {tranToNoteCrood(piece.pos1.x, piece.pos1.y), tranToNoteCrood(piece.pos2.x, piece.pos2.y)};
+    game.is_move = true;
+}
+
+std::pair<int, std::string> minimax(Game &game, Pieces &piece, int depth){
+    Game cur_game = game;
+    Pieces cur_piece = piece;
+    std::pair<int, std::string> cur_point;
+    std::pair<int, std::string> best_point = {0, " "};
+    if(depth ==0){
+        return best_point;
+    }
+    int n = ((cur_game.move_count %2) ==0)? 1: -1;
+    best_point.first = 1000*n;
+    for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            if(cur_game.pos_v2[i][j]*n >0){
+                cur_piece.pos1.x = i;
+                cur_piece.pos1.y = j;
+                cur_piece.init(cur_game);
+                for(int k=0; k < cur_piece.enable_count ; k++){
+                    tranToCrood(cur_piece.pos2.x, cur_piece.pos2.y, cur_piece.enable_note[k]);
+                    switch(cur_game.pos_v2[cur_piece.pos2.x][cur_piece.pos2.y]){
+                    case 1:
+                    case -1:
+                        cur_point.first = (10+depth)*n;
+                        break;
+                    case 2:
+                    case -2:
+                        cur_point.first = (30+depth)*n;
+                        break;
+                    case 3:
+                    case -3:
+                        cur_point.first = (30+depth)*n;
+                        break;
+                    case 4:
+                    case -4:
+                        cur_point.first = (50+depth)*n;
+                        break;
+                    case 5:
+                    case -5:
+                        cur_point.first = (90+depth)*n;
+                        break;
+                    case 6:
+                    case -6:
+                        cur_point.first = (1000+depth)*n;
+                        break;
+                    }
+                    cur_point.second = tranToNoteCrood(cur_piece.pos1.x, cur_piece.pos1.y)+ cur_piece.enable_note[k];
+                    move(cur_game, cur_piece);
+                    cur_point = minimax(cur_game, cur_piece, depth+1);
+                    if(best_point.first<cur_point.first){
+                        std::string x = best_point.second;
+                        best_point = cur_point;
+                        if(depth == -1){
+                            best_point.second = x;
+                        }
+                    }
+//                    std::cout << cur_point.first << " " << cur_point.second << std::endl;
+                }
+                return best_point;
+            }
+        }
+    }
+}
+
 bool checkEndGame(Game &game){
     bool black = false;
     bool white = false;
@@ -248,6 +347,25 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
         if(mouseClick.x >= 64 && mouseClick.y >= 64 && mouseClick.x <= 576 && mouseClick.y <= 576 && game.get_pos == true){
             switch(game.regism){
             case REGISM_1P:
+                if(game.chose_piece == false){
+                    piece.Pos1GetCoord(mouseClick);
+                    if(game.pos_v2[piece.pos1.x][piece.pos1.y]>0){
+                        game.chose_piece = true;
+                        piece.init(game);
+                    }
+                } else{
+                    if(game.chose_piece == true){
+                        piece.Pos2GetCoord(mouseClick);
+                        if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
+                            move(game, piece);
+                        }
+                        game.chose_piece = false;
+                        std::pair <int , std::string> s = minimax(game, piece, -1);
+                        tranToCrood(piece.pos1.x, piece.pos1.y, s.second);
+                        tranToCrood(piece.pos2.x, piece.pos2.y, s.second.erase(0,2));
+                        move(game, piece);
+                    }
+                }
                 break;
             case REGISM_2P:
                 if(game.chose_piece == false){
@@ -261,40 +379,7 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
                     if(game.chose_piece == true){
                         piece.Pos2GetCoord(mouseClick);
                         if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
-                            if(piece.pos1.y != piece.pos2.y && game.pos_v2[piece.pos2.x][piece.pos2.y] == 0 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==1 && abs(game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos1.x][piece.pos1.y]][piece.pos2.y])==1){
-                                piece.get_pawn_special = true;
-                            }
-                            if(abs(piece.pos2.y - piece.pos1.y)==2 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==6){
-                                piece.castle= true;
-                            }
-                            if(piece.get_pawn_special == true){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
-                                piece.get_pawn_special = false;
-                            }else {
-                                if(piece.castle == true){
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                    if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos1.x){
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-1] = game.pos_v2[piece.pos2.x][piece.pos2.y+1];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = 0;
-                                    } else {
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = game.pos_v2[piece.pos2.x][piece.pos2.y-2];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-2] = 0;
-                                    }
-                                    piece.castle = false;
-                                } else {
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                }
-                            }
-                            if((piece.pos2.x == 0 || piece.pos2.x == 7)&& (game.pos_v2[piece.pos2.x][piece.pos2.y] == 1 || game.pos_v2[piece.pos2.x][piece.pos2.y] == -1)){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] *=5;
-                            }
-                            game.tranToPosV1();
-                            game.move_note[game.move_count] = {tranToNoteCrood(piece.pos1.x, piece.pos1.y), tranToNoteCrood(piece.pos2.x, piece.pos2.y)};
-                            game.is_move = true;
+                            move(game, piece);
                         }
                         game.chose_piece = false;
                     }
