@@ -49,7 +49,6 @@ void handleEvent(Game &game, Pos &mouse, Pos &mouseClick){
         break;
     case SDL_MOUSEBUTTONDOWN:
         SDL_GetMouseState(&mouseClick.x, &mouseClick.y);
-        std::cout <<mouseClick.x << " " << mouseClick.y <<std::endl;
         game.get_pos = true;
         break;
     }
@@ -249,50 +248,8 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
         if(mouseClick.x >= 64 && mouseClick.y >= 64 && mouseClick.x <= 576 && mouseClick.y <= 576 && game.get_pos == true){
             switch(game.regism){
             case REGISM_1P:
-                if(game.chose_piece == false){
-                    piece.Pos1GetCoord(mouseClick);
-                    if(game.pos_v2[piece.pos1.x][piece.pos1.y]>0){
-                        game.chose_piece = true;
-                        piece.init(game);
-                    }
-                } else{
-                    if(game.chose_piece == true){
-                        piece.Pos2GetCoord(mouseClick);
-                        if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
-                            if(piece.get_pawn_special == true){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                game.pos_v2[piece.pos2.x-game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
-                            }else {
-                                if(piece.castle == true){
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                    if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos2.y){
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-1] = game.pos_v2[piece.pos2.x][piece.pos2.y+1];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = 0;
-                                    } else {
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = game.pos_v2[piece.pos2.x][piece.pos2.y-2];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-2] = 0;
-                                    }
-                                } else {
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                }
-                            }
-                            if(piece.pos2.x == (4-(1-7*game.pos_v2[piece.pos2.x][piece.pos2.y])/2) && (game.pos_v2[piece.pos2.x][piece.pos2.y] == 1 || game.pos_v2[piece.pos2.x][piece.pos2.y] == -1)){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] *=5;
-                            }
-                            game.tranToPosV1();
-                            game.move_note[game.move_count] = {tranToNoteCrood(piece.pos1.x, piece.pos1.y), tranToNoteCrood(piece.pos2.x, piece.pos2.y)};
-                            game.is_move = true;
-                        }
-                        game.chose_piece = false;
-                    }
-                }
                 break;
             case REGISM_2P:
-                std::cout << game.move_count << " " << game.cur_move_count << std::endl;
-                std::cout << game.chose_piece << " " << piece.castle << " " << piece.get_pawn_special << std::endl;
                 if(game.chose_piece == false){
                     int n = ((game.move_count %2) ==0)? 1: -1;
                     piece.Pos1GetCoord(mouseClick);
@@ -304,7 +261,7 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
                     if(game.chose_piece == true){
                         piece.Pos2GetCoord(mouseClick);
                         if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
-                            if(abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==1 && abs(game.pos_v2[piece.pos2.x-game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y])==1){
+                            if(piece.pos1.y != piece.pos2.y && game.pos_v2[piece.pos2.x][piece.pos2.y] == 0 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==1 && abs(game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos1.x][piece.pos1.y]][piece.pos2.y])==1){
                                 piece.get_pawn_special = true;
                             }
                             if(abs(piece.pos2.y - piece.pos1.y)==2 && abs(game.pos_v2[piece.pos1.x][piece.pos1.y])==6){
@@ -313,18 +270,20 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
                             if(piece.get_pawn_special == true){
                                 game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
                                 game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                game.pos_v2[piece.pos2.x-game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
+                                game.pos_v2[piece.pos2.x+game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
+                                piece.get_pawn_special = false;
                             }else {
                                 if(piece.castle == true){
                                     game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
                                     game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                    if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos2.y){
+                                    if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos1.x){
                                         game.pos_v2[piece.pos2.x][piece.pos2.y-1] = game.pos_v2[piece.pos2.x][piece.pos2.y+1];
                                         game.pos_v2[piece.pos2.x][piece.pos2.y+1] = 0;
                                     } else {
                                         game.pos_v2[piece.pos2.x][piece.pos2.y+1] = game.pos_v2[piece.pos2.x][piece.pos2.y-2];
                                         game.pos_v2[piece.pos2.x][piece.pos2.y-2] = 0;
                                     }
+                                    piece.castle = false;
                                 } else {
                                     game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
                                     game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
@@ -342,46 +301,6 @@ void update(Game &game, Screen &screen, Pos &mouseClick, Pieces &piece){
                 }
                 break;
             case REGISM_RIDDLE:
-                if(game.chose_piece == false){
-                    piece.Pos1GetCoord(mouseClick);
-                    if(game.pos_v2[piece.pos1.x][piece.pos1.y]>0){
-                        game.chose_piece = true;
-                        piece.init(game);
-                    }
-                } else{
-                    if(game.chose_piece == true){
-                        piece.Pos2GetCoord(mouseClick);
-                        if(piece.enable[piece.pos2.x][piece.pos2.y] == true){
-                            if(piece.get_pawn_special == true){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                game.pos_v2[piece.pos2.x-game.pos_v2[piece.pos2.x][piece.pos2.y]][piece.pos2.y] =0;
-                            }else {
-                                if(piece.castle == true){
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                    if(piece.pos2.y- piece.pos1.y ==2 && piece.pos2.x == piece.pos2.y){
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-1] = game.pos_v2[piece.pos2.x][piece.pos2.y+1];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = 0;
-                                    } else {
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y+1] = game.pos_v2[piece.pos2.x][piece.pos2.y-2];
-                                        game.pos_v2[piece.pos2.x][piece.pos2.y-2] = 0;
-                                    }
-                                } else {
-                                    game.pos_v2[piece.pos2.x][piece.pos2.y] = game.pos_v2[piece.pos1.x][piece.pos1.y];
-                                    game.pos_v2[piece.pos1.x][piece.pos1.y] = 0;
-                                }
-                            }
-                            if(piece.pos2.x == (4-(1-7*game.pos_v2[piece.pos2.x][piece.pos2.y])/2) && (game.pos_v2[piece.pos2.x][piece.pos2.y] == 1 || game.pos_v2[piece.pos2.x][piece.pos2.y] == -1)){
-                                game.pos_v2[piece.pos2.x][piece.pos2.y] *=5;
-                            }
-                            game.tranToPosV1();
-                            game.move_note[game.move_count] = {tranToNoteCrood(piece.pos1.x, piece.pos1.y), tranToNoteCrood(piece.pos2.x, piece.pos2.y)};
-                            game.is_move = true;
-                        }
-                        game.chose_piece = false;
-                    }
-                }
                 break;
             }
         }
@@ -554,11 +473,15 @@ void render(Game &game, Screen &screen, Pos &mouse, Pieces &piece){
         screen.renderTexture(screen.board_game, 0, 0);
         for(int i=0; i< 8; i++){
             for(int j=0; j<8; j++){
-                if(i == piece.pos1.x && j == piece.pos1.y && game.is_move == true){
+                if(game.is_move == false){
+                    piece.dis_x = 0;
+                    piece.dis_y = 0;
+                }
+                if(i == piece.pos2.x && j == piece.pos2.y && game.is_move == true){
                     piece.evaluateDistant(game.is_move);
-                    int n = (game.pos_v2[piece.pos1.x][piece.pos1.y] >0)? (game.pieces_p1-20): (game.pieces_p2-20);
-                    Rect rect_in((abs(game.pos_v2[piece.pos1.x][piece.pos1.y])-1)*128, 128*n, 128, 128);
-                    Rect rect_out((piece.pos1.x+1)*64+piece.dis_x, (piece.pos1.y+1)*64+piece.dis_y, 64, 64);
+                    int n = (game.pos_v2[piece.pos2.x][piece.pos2.y] >0)? (game.pieces_p1-20): (game.pieces_p2-20);
+                    Rect rect_in((abs(game.pos_v2[piece.pos2.x][piece.pos2.y])-1)*128, 128*n, 128, 128);
+                    Rect rect_out((piece.pos1.y+1)*64+piece.dis_x, (piece.pos1.x+1)*64+piece.dis_y, 64, 64);
                     screen.renderTexture(screen.pieces, rect_in, rect_out);
                 } else {
                     if(game.pos_v2[i][j] != 0){
